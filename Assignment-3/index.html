@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Student Result Management System</h1>
+
+        <h2>Enter Student Details</h2>
+
+        <form id="studentForm">
+            <input type="text" id="roll" placeholder="Roll Number" required>
+            <input type="text" id="name" placeholder="Student Name" required>
+
+            <input type="number" id="m1" placeholder="Subject 1 Marks"
+                   min="0" max="100" required>
+
+            <input type="number" id="m2" placeholder="Subject 2 Marks"
+                   min="0" max="100" required>
+
+            <input type="number" id="m3" placeholder="Subject 3 Marks"
+                   min="0" max="100" required>
+
+            <input type="number" id="m4" placeholder="Subject 4 Marks"
+                   min="0" max="100" required>
+
+            <input type="number" id="m5" placeholder="Subject 5 Marks"
+                   min="0" max="100" required>
+
+            <button type="submit">Add Student</button>
+        </form>
+
+        <h2>Student Records</h2>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Roll No.</th>
+                        <th>Name</th>
+                        <th>Total</th>
+                        <th>Percentage</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+
+                <tbody id="studentTable">
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Topper</h2>
+        <div id="topper">
+            No student records available.
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
