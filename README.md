@@ -12,4 +12,4 @@ This repository contains all my Full Stack Web Development assignments.
 - Assignment 7
 - Assignment 8
 
-More assignments will be added as I continue learning.
+
