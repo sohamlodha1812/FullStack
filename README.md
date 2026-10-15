@@ -8,5 +8,8 @@ This repository contains all my Full Stack Web Development assignments.
 - Assignment 2
 - Assignment 3
 - Assignment 4
+- Assignment 6
+- Assignment 7
+- Assignment 8
 
-More assignments will be added as I continue learning.
+
