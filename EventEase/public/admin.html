@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — EventEase</title>
+  <meta name="description" content="EventEase admin dashboard for managing event registrations." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       LOGIN SCREEN
+       Shown when the admin is not authenticated.
+  ============================================================ -->
+  <div class="login-screen" id="login-screen" aria-label="Admin login">
+    <div class="login-card">
+      <div class="login-card__icon" aria-hidden="true">🔐</div>
+      <h1 class="login-card__title">Admin Login</h1>
+      <p class="login-card__subtitle">EventEase Dashboard</p>
+
+      <!-- Educational notice -->
+      <div class="edu-notice" role="note">
+        <strong>📚 Educational Note:</strong> This is a simple password-based login
+        suitable for a student mini-project. In a real production app, you would use
+        proper user accounts with bcrypt-hashed passwords and secure tokens.
+      </div>
+
+      <form class="login-form" id="login-form" novalidate aria-label="Admin login form">
+        <div class="form-group">
+          <label class="form-label" for="admin-password">
+            Admin Password <span aria-hidden="true" style="color:#ef4444;">*</span>
+          </label>
+          <input
+            type="password"
+            class="form-input"
+            id="admin-password"
+            name="password"
+            placeholder="Enter admin password"
+            required
+            aria-required="true"
+            aria-describedby="login-error"
+            autocomplete="current-password"
+          />
+        </div>
+
+        <div class="login-error" id="login-error" role="alert" aria-live="assertive" hidden></div>
+
+        <button type="submit" class="btn btn--primary btn--full" id="login-btn">
+          <span id="login-text">Login</span>
+          <span id="login-spinner" class="btn-spinner" hidden aria-hidden="true"></span>
+        </button>
+      </form>
+
+      <a href="/" class="login-back-link">← Back to EventEase</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ADMIN DASHBOARD
+       Shown after successful login. Hidden initially.
+  ============================================================ -->
+  <div class="dashboard" id="dashboard" hidden aria-label="Admin dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" role="navigation" aria-label="Admin sidebar">
+      <div class="sidebar__brand">
+        <span aria-hidden="true">🎓</span>
+        <div>
+          <div class="sidebar__brand-name">EventEase</div>
+          <div class="sidebar__brand-sub">Admin Panel</div>
+        </div>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a href="#section-overview" class="sidebar__link sidebar__link--active" id="nav-overview">
+          <span aria-hidden="true">📊</span> Overview
+        </a>
+        <a href="#section-registrations" class="sidebar__link" id="nav-registrations">
+          <span aria-hidden="true">📋</span> Registrations
+        </a>
+        <a href="/" class="sidebar__link sidebar__link--external">
+          <span aria-hidden="true">🌐</span> View Site
+        </a>
+      </nav>
+
+      <div class="sidebar__footer">
+        <button class="btn-logout" id="logout-btn" aria-label="Log out of admin panel">
+          <span aria-hidden="true">🚪</span> Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main" role="main">
+
+      <!-- Top Bar -->
+      <header class="topbar" role="banner">
+        <div class="topbar__title">
+          <h1 id="page-title">Dashboard Overview</h1>
+        </div>
+        <div class="topbar__meta" aria-live="polite">
+          <span class="db-status" id="db-status" aria-label="Database status"></span>
+          <span class="topbar__user" aria-label="Logged in as Admin">👤 Admin</span>
+        </div>
+      </header>
+
+      <!-- Loading state for dashboard -->
+      <div class="dash-loading" id="dash-loading" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>Loading dashboard…</p>
+      </div>
+
+      <!-- Error state for dashboard -->
+      <div class="dash-error" id="dash-error" hidden role="alert">
+        <span aria-hidden="true">⚠️</span>
+        <p id="dash-error-msg">Failed to load data.</p>
+        <button class="btn btn--outline btn--sm" onclick="loadDashboard()">Retry</button>
+      </div>
+
+      <!-- ── OVERVIEW SECTION ──────────────────────────────── -->
+      <section class="dash-section" id="section-overview" aria-labelledby="overview-heading" hidden>
+        <h2 class="dash-section__title" id="overview-heading">Overview</h2>
+
+        <!-- Stat Cards -->
+        <div class="stats-grid" aria-label="Registration statistics">
+          <div class="stat-card" aria-label="Total registrations">
+            <div class="stat-card__icon" aria-hidden="true">📝</div>
+            <div class="stat-card__number" id="stat-total">—</div>
+            <div class="stat-card__label">Total Registrations</div>
+          </div>
+          <div class="stat-card" aria-label="Events with registrations">
+            <div class="stat-card__icon" aria-hidden="true">🎯</div>
+            <div class="stat-card__number" id="stat-events">—</div>
+            <div class="stat-card__label">Events with Registrations</div>
+          </div>
+          <div class="stat-card" aria-label="Most popular event">
+            <div class="stat-card__icon" aria-hidden="true">🏆</div>
+            <div class="stat-card__number stat-card__number--sm" id="stat-popular">—</div>
+            <div class="stat-card__label">Most Popular Event</div>
+          </div>
+        </div>
+
+        <!-- Registrations by Event -->
+        <div class="dash-card">
+          <h3 class="dash-card__title">📊 Registrations by Event</h3>
+          <div id="event-breakdown" aria-live="polite">
+            <p class="empty-text">No data yet.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── REGISTRATIONS SECTION ─────────────────────────── -->
+      <section class="dash-section" id="section-registrations" aria-labelledby="reg-heading" hidden>
+        <h2 class="dash-section__title" id="reg-heading">All Registrations</h2>
+
+        <!-- Search bar -->
+        <div class="search-bar" role="search">
+          <label class="sr-only" for="search-input">Search registrations</label>
+          <span class="search-bar__icon" aria-hidden="true">🔍</span>
+          <input
+            type="search"
+            class="search-input"
+            id="search-input"
+            placeholder="Search by name or email…"
+            aria-label="Search registrations by name or email"
+          />
+          <span class="search-bar__count" id="search-count" aria-live="polite"></span>
+        </div>
+
+        <!-- Registrations Table -->
+        <div class="table-wrapper" role="region" aria-label="Registrations table" aria-live="polite">
+          <div id="table-loading" class="table-state">
+            <div class="spinner" aria-hidden="true"></div> Loading…
+          </div>
+          <div id="table-empty" class="table-state table-state--empty" hidden>
+            <span aria-hidden="true">📭</span>
+            <p>No registrations found.</p>
+          </div>
+          <table class="reg-table" id="reg-table" hidden aria-label="Student registrations">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Student Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Department</th>
+                <th scope="col">Year</th>
+                <th scope="col">Event</th>
+                <th scope="col">Registered On</th>
+              </tr>
+            </thead>
+            <tbody id="reg-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EventEase — College Event Registration</title>
+  <meta name="description" content="Discover and register for exciting college events at EventEase. Browse upcoming workshops, competitions, seminars, and cultural shows." />
+
+  <!-- Google Fonts: Inter for clean, modern typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION BAR
+  ============================================================ -->
+  <header class="navbar" role="banner">
+    <div class="container navbar__inner">
+      <!-- Brand Logo -->
+      <a href="#home" class="navbar__brand" aria-label="EventEase Home">
+        <span class="brand-icon" aria-hidden="true">🎓</span>
+        <span class="brand-text">Event<span class="brand-accent">Ease</span></span>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="navbar__links" aria-label="Main navigation">
+        <a href="#home" class="nav-link">Home</a>
+        <a href="#events" class="nav-link">Events</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="admin.html" class="nav-link nav-link--admin">Admin</a>
+      </nav>
+
+      <!-- Hamburger Button for Mobile -->
+      <button
+        class="navbar__hamburger"
+        id="hamburger-btn"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div class="navbar__mobile" id="mobile-menu" role="navigation" aria-label="Mobile navigation" hidden>
+      <a href="#home" class="mobile-link">🏠 Home</a>
+      <a href="#events" class="mobile-link">📅 Events</a>
+      <a href="#about" class="mobile-link">ℹ️ About</a>
+      <a href="admin.html" class="mobile-link">🔐 Admin</a>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       HERO SECTION
+  ============================================================ -->
+  <main id="home">
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="container hero__content">
+        <div class="hero__badge" aria-label="New events badge">✨ New Events Available</div>
+        <h1 class="hero__heading" id="hero-heading">
+          Discover. Register.<br />
+          <span class="hero__heading--accent">Experience.</span>
+        </h1>
+        <p class="hero__description">
+          Find exciting college events and reserve your spot in seconds.
+        </p>
+        <div class="hero__actions">
+          <a href="#events" class="btn btn--primary" id="explore-btn">
+            Explore Events
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="#about" class="btn btn--outline">Learn More</a>
+        </div>
+
+        <!-- Stats strip -->
+        <div class="hero__stats" aria-label="Platform statistics">
+          <div class="hero__stat">
+            <span class="hero__stat-number">6</span>
+            <span class="hero__stat-label">Events</span>
+          </div>
+          <div class="hero__stat-divider" aria-hidden="true"></div>
+          <div class="hero__stat">
+            <span class="hero__stat-number">4</span>
+            <span class="hero__stat-label">Categories</span>
+          </div>
+          <div class="hero__stat-divider" aria-hidden="true"></div>
+          <div class="hero__stat">
+            <span class="hero__stat-number">100%</span>
+            <span class="hero__stat-label">Free</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decorative background elements -->
+      <div class="hero__bg-shape hero__bg-shape--1" aria-hidden="true"></div>
+      <div class="hero__bg-shape hero__bg-shape--2" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============================================================
+         EVENTS SECTION
+    ============================================================ -->
+    <section class="events-section" id="events" aria-labelledby="events-heading">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-eyebrow">📅 Upcoming</p>
+          <h2 class="section-title" id="events-heading">College Events</h2>
+          <p class="section-subtitle">
+            Browse and register for events that match your interests.
+          </p>
+        </div>
+
+        <!-- Loading state -->
+        <div class="loading-state" id="events-loading" aria-live="polite" aria-label="Loading events">
+          <div class="spinner" aria-hidden="true"></div>
+          <p>Loading events…</p>
+        </div>
+
+        <!-- Error state (shown if API fails) -->
+        <div class="error-state" id="events-error" hidden aria-live="assertive">
+          <span class="error-icon" aria-hidden="true">⚠️</span>
+          <h3>Could not load events</h3>
+          <p id="events-error-msg">The server may be unavailable. Please try again later.</p>
+          <button class="btn btn--outline" onclick="loadEvents()">Retry</button>
+        </div>
+
+        <!-- Events grid (populated by script.js) -->
+        <div class="events-grid" id="events-grid" aria-label="Events list" role="list"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ABOUT SECTION
+    ============================================================ -->
+    <section class="about-section" id="about" aria-labelledby="about-heading">
+      <div class="container about__inner">
+        <div class="about__text">
+          <p class="section-eyebrow">ℹ️ About</p>
+          <h2 class="section-title" id="about-heading">About EventEase</h2>
+          <p class="about__description">
+            EventEase is a student mini-project built to help college students easily discover,
+            explore, and register for campus events. Built with <strong>Node.js</strong>,
+            <strong>Express</strong>, <strong>MongoDB</strong>, and plain
+            <strong>HTML/CSS/JavaScript</strong> — no heavy frameworks.
+          </p>
+          <ul class="about__features" aria-label="Key features">
+            <li>✅ Browse all upcoming college events</li>
+            <li>✅ One-click registration with instant confirmation</li>
+            <li>✅ Duplicate registration prevention</li>
+            <li>✅ Admin dashboard to view all registrations</li>
+            <li>✅ Fully responsive — works on mobile and desktop</li>
+          </ul>
+        </div>
+        <div class="about__card" aria-hidden="true">
+          <div class="about__card-icon">🎓</div>
+          <div class="about__card-title">Student Mini Project</div>
+          <div class="about__card-stack">
+            <span class="tech-badge">HTML5</span>
+            <span class="tech-badge">CSS3</span>
+            <span class="tech-badge">JavaScript</span>
+            <span class="tech-badge">Node.js</span>
+            <span class="tech-badge">Express</span>
+            <span class="tech-badge">MongoDB</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span aria-hidden="true">🎓</span> EventEase
+      </div>
+      <p class="footer__copy">
+        &copy; 2026 EventEase — College Event Registration System. Built as a student mini project.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       REGISTRATION MODAL
+  ============================================================ -->
+  <div
+    class="modal-overlay"
+    id="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+    hidden
+  >
+    <div class="modal">
+      <!-- Modal Header -->
+      <div class="modal__header">
+        <h2 class="modal__title" id="modal-title">Register for Event</h2>
+        <button
+          class="modal__close"
+          id="modal-close"
+          aria-label="Close registration form"
+        >
+          &times;
+        </button>
+      </div>
+
+      <!-- Selected event info (filled by JS) -->
+      <div class="modal__event-info" id="modal-event-info" aria-live="polite"></div>
+
+      <!-- Registration Form -->
+      <form class="reg-form" id="reg-form" novalidate aria-label="Student registration form">
+        <!-- Hidden field: stores selected event ID -->
+        <input type="hidden" id="form-event-id" name="eventId" />
+
+        <div class="form-group">
+          <label class="form-label" for="form-name">
+            Full Name <span class="required" aria-hidden="true">*</span>
+          </label>
+          <input
+            type="text"
+            class="form-input"
+            id="form-name"
+            name="studentName"
+            placeholder="e.g. Priya Sharma"
+            autocomplete="name"
+            required
+            aria-required="true"
+            aria-describedby="name-error"
+          />
+          <span class="field-error" id="name-error" role="alert" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="form-email">
+            Email Address <span class="required" aria-hidden="true">*</span>
+          </label>
+          <input
+            type="email"
+            class="form-input"
+            id="form-email"
+            name="email"
+            placeholder="e.g. priya@college.edu"
+            autocomplete="email"
+            required
+            aria-required="true"
+            aria-describedby="email-error"
+          />
+          <span class="field-error" id="email-error" role="alert" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="form-department">
+            Department <span class="required" aria-hidden="true">*</span>
+          </label>
+          <input
+            type="text"
+            class="form-input"
+            id="form-department"
+            name="department"
+            placeholder="e.g. Computer Science"
+            autocomplete="organization"
+            required
+            aria-required="true"
+            aria-describedby="dept-error"
+          />
+          <span class="field-error" id="dept-error" role="alert" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="form-year">
+            Academic Year <span class="required" aria-hidden="true">*</span>
+          </label>
+          <select
+            class="form-input form-select"
+            id="form-year"
+            name="academicYear"
+            required
+            aria-required="true"
+            aria-describedby="year-error"
+          >
+            <option value="">— Select your year —</option>
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
+          </select>
+          <span class="field-error" id="year-error" role="alert" aria-live="polite"></span>
+        </div>
+
+        <!-- Form-level message (success / error) -->
+        <div
+          class="form-message"
+          id="form-message"
+          role="alert"
+          aria-live="assertive"
+          hidden
+        ></div>
+
+        <button type="submit" class="btn btn--primary btn--full" id="submit-btn">
+          <span id="submit-text">Register Now</span>
+          <span id="submit-spinner" class="btn-spinner" hidden aria-hidden="true"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
