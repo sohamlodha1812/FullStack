@@ -13,6 +13,4 @@ This repository contains all my Full Stack Web Development assignments.
 - Assignment 8
 
 
-EventEase(Mini-Project)
-
 
